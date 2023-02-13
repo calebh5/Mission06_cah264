@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+//Controller page. This page is what brings us routes us to all actions and pages.
 namespace Mission06_cah264.Controllers
 {
     public class HomeController : Controller
@@ -28,7 +29,7 @@ namespace Mission06_cah264.Controllers
         {
             return View();
         }
-
+        //Form get and post. To retrieve information then actually push it on the form.
         [HttpGet]
         public IActionResult Form()
         {

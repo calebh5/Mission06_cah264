@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//Model with prebuilt movies. Seeded with the first 3 of the database
 namespace Mission06_cah264.Models
 {
     public class MovieContext : DbContext

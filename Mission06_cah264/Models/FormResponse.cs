@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mission06_cah264.Models
 {
+    //The categories on the form. Has the basic information for a movie to be inputed into the system.
     public class FormResponse
     {
         [Key]
