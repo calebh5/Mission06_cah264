@@ -15,15 +15,55 @@ namespace Mission06_cah264.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Mission06_cah264.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Sci-fi/Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "War/Drama"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Action"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Boring"
+                        });
+                });
+
             modelBuilder.Entity("Mission06_cah264.Models.FormResponse", b =>
                 {
                     b.Property<int>("MovieID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +92,15 @@ namespace Mission06_cah264.Migrations
 
                     b.HasKey("MovieID");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("responses");
 
                     b.HasData(
                         new
                         {
                             MovieID = 1,
-                            Category = "Sci-fi/Adventure",
+                            CategoryID = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             Rating = "PG13",
@@ -68,7 +110,7 @@ namespace Mission06_cah264.Migrations
                         new
                         {
                             MovieID = 2,
-                            Category = "Comedy",
+                            CategoryID = 2,
                             Director = "Jared Hess",
                             Edited = false,
                             Rating = "PG",
@@ -78,13 +120,22 @@ namespace Mission06_cah264.Migrations
                         new
                         {
                             MovieID = 3,
-                            Category = "War/Drama",
+                            CategoryID = 3,
                             Director = "Mel Gibson",
                             Edited = false,
                             Rating = "R",
                             Title = "Hacksaw Ridge",
                             Year = (short)2016
                         });
+                });
+
+            modelBuilder.Entity("Mission06_cah264.Models.FormResponse", b =>
+                {
+                    b.HasOne("Mission06_cah264.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

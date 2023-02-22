@@ -15,15 +15,25 @@ namespace Mission06_cah264.Models
         }
 
         public DbSet<FormResponse> responses { get; set; }
+        
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category { CategoryID = 1, CategoryName = "Sci-fi/Adventure" },
+                new Category { CategoryID = 2, CategoryName = "Comedy" },
+                new Category { CategoryID = 3, CategoryName = "War/Drama" },
+                new Category { CategoryID = 4, CategoryName = "Action" },
+                new Category { CategoryID = 5, CategoryName = "Boring" }
+                );
+
             mb.Entity<FormResponse>().HasData(
 
                 new FormResponse
                 {
                     MovieID = 1,
-                    Category = "Sci-fi/Adventure",
+                    CategoryID = 1,
                     Title = "Interstellar",
                     Year = 2014,
                     Director = "Christopher Nolan",
@@ -33,7 +43,7 @@ namespace Mission06_cah264.Models
                 new FormResponse
                 {
                     MovieID = 2,
-                    Category = "Comedy",
+                    CategoryID = 2,
                     Title = "Napoleon Dynamite",
                     Year = 2004,
                     Director = "Jared Hess",
@@ -43,7 +53,7 @@ namespace Mission06_cah264.Models
                 new FormResponse
                 {
                     MovieID = 3,
-                    Category = "War/Drama",
+                    CategoryID = 3,
                     Title = "Hacksaw Ridge",
                     Year = 2016,
                     Director = "Mel Gibson",

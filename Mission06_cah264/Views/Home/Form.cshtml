@@ -8,8 +8,17 @@
 <!--The form itself routed with asp. A submit form to push it to the controller-->
 <div>
     <form method="post">
-        <label asp-for="Category">Category:</label>
-        <input asp-for="Category" />
+        @*<div asp-validation-summary="All"></div>
+        <input asp-for="MovieID" type="hidden" />*@
+
+        <label asp-for="CategoryID">Category:</label>
+        <select asp-for="CategoryID">
+            <option value="">Select a Major:</option>
+            @foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryID">@c.CategoryName</option>
+            }
+        </select>
         <br />
 
         <label asp-for="Title">Title:</label>

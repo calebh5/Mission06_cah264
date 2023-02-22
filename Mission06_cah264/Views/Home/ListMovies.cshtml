@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Movie List";
+}
+
+@model List<FormResponse>
+
+<!--My table listing the movies. Has bootstrap for the buttons and highlighting. Centered titles.-->
+    <table class="table table-bordered table-striped table-hover">
+
+        <thead class="font-weight-bold text-align: text-center">
+            <tr>
+                <td>Category:</td>
+                <td>Title:</td>
+                <td>Year:</td>
+                <td>Director:</td>
+                <td>Rating:</td>
+                <td>Edited:</td>
+                <td>LentTo:</td>
+                <td>Notes:</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.Category.CategoryName</td>
+                    <td>@x.Title</td>
+                    <td>@x.Year</td>
+                    <td>@x.Director</td>
+                    <td>@x.Rating</td>
+                    <td>@x.Edited</td>
+                    <td>@x.Rating</td>
+                    <td>@x.LentTo</td>
+                    <td>@x.Notes</td>
+                    <td><a class="btn btn-sm btn-primary" asp-controller="Home" asp-action="Edit" asp-route-movieid="@x.MovieID">Edit</a></td>
+                    <td><a class="btn btn-sm btn-danger" asp-controller="Home" asp-action="Delete" asp-route-movieid="@x.MovieID">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>

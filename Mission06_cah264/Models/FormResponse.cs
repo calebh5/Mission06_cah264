@@ -13,8 +13,6 @@ namespace Mission06_cah264.Models
         [Required]
         public int MovieID { get; set; }
 
-        [Required]
-        public string Category { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -34,6 +32,10 @@ namespace Mission06_cah264.Models
 
         [MaxLength(25, ErrorMessage = "Notes need to be less than 25 characters")]
         public string Notes { get; set; }
+
+
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
 
     }
 }

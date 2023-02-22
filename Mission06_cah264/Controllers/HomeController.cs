@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission06_cah264.Models;
 using System;
@@ -12,14 +13,16 @@ namespace Mission06_cah264.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private MovieContext _DataContext { get; set; }
-        public HomeController(ILogger<HomeController> logger, MovieContext someName)
-        {
-            _logger = logger;
-            _DataContext = someName;
-        }
+        private MovieContext daContext { get; set; }
 
+        //private readonly ILogger<HomeController> _logger;
+
+        public HomeController(MovieContext someName)
+        {
+
+            daContext = someName;
+        }
+        
         public IActionResult Index()
         {
             return View();
@@ -33,16 +36,76 @@ namespace Mission06_cah264.Controllers
         [HttpGet]
         public IActionResult Form()
         {
+            ViewBag.Categories = daContext.Categories.ToList();
+
             return View();
         }
 
+        // Helping the form using categories as a foreign key relationship
         [HttpPost]
         public IActionResult Form(FormResponse response)
         {
-            _DataContext.Add(response);
-            _DataContext.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                daContext.Add(response);
+                daContext.SaveChanges();
 
-            return View(response);
+                return View("Confirmation", response);
+            }
+
+            else
+            {
+                ViewBag.Categories = daContext.Categories.ToList();
+
+                return View(response);
+            }
+            
+        }
+        //This is to list the movies on a page where you can see and edit the database
+        [HttpGet]
+        public IActionResult ListMovies()
+        {
+            var applications = daContext.responses
+                .Include(x => x.Category)
+                .OrderBy(x => x.Title)
+                .ToList();
+
+            return View(applications);
+        }
+        //Editing section.
+        [HttpGet]
+        public IActionResult Edit(int movieid)
+        {
+            ViewBag.Categories = daContext.Categories.ToList();
+
+            var application = daContext.responses.Single(x => x.MovieID == movieid);
+
+            return View("Form", application);
+        }
+        [HttpPost]
+        public IActionResult Edit(FormResponse response)
+        {
+            daContext.Update(response);
+            daContext.SaveChanges();
+
+            return RedirectToAction("ListMovies");
+        }
+        //Deleting section.
+        [HttpGet]
+        public IActionResult Delete(int movieid)
+        {
+            var movie = daContext.responses.Single(x => x.MovieID == movieid);
+
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(FormResponse response)
+        {
+            daContext.responses.Remove(response);
+            daContext.SaveChanges();
+
+            return RedirectToAction("ListMovies");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
